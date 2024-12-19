@@ -40,4 +40,14 @@ public class BookTrackerService {
             System.out.println("While deleting: bookTracker with id " + id +" not found");
         });
     }
+
+    public void deleteBookTrackerByBookId(Long bookId){
+        Optional<BookTracker> book = bookTrackerRepository.findByBookId(bookId);
+
+        book.ifPresentOrElse(b ->{
+            bookTrackerRepository.deleteById(b.getId());
+        }, ()->{
+            System.out.println("While deleting: bookTracker with id " + bookId +" not found");
+        });
+    }
 }
