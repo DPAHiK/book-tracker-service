@@ -43,15 +43,15 @@ public class BookTrackerService {
         return false;
     }
 
-    public boolean deleteBookTrackerByBookId(Long bookId){
+    public void deleteBookTrackerByBookId(Long bookId){
         Optional<BookTracker> book = bookTrackerRepository.findByBookId(bookId);
 
         if(book.isPresent()){
             bookTrackerRepository.deleteById(book.get().getId());
-            return true;
+            return;
         }
 
         System.out.println("While deleting: bookTracker with bookId " + bookId +" not found");
-        return false;
+
     }
 }
