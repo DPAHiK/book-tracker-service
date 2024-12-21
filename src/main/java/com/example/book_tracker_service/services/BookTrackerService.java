@@ -31,23 +31,27 @@ public class BookTrackerService {
     }
 
 
-    public void deleteBookTrackerById(Long id){
+    public boolean deleteBookTrackerById(Long id){
         Optional<BookTracker> book = bookTrackerRepository.findById(id);
 
-        book.ifPresentOrElse(b ->{
-            bookTrackerRepository.deleteById(b.getId());
-        }, ()->{
-            System.out.println("While deleting: bookTracker with id " + id +" not found");
-        });
+        if(book.isPresent()){
+            bookTrackerRepository.deleteById(id);
+            return true;
+        }
+
+        System.out.println("While deleting: bookTracker with bookId " + id +" not found");
+        return false;
     }
 
-    public void deleteBookTrackerByBookId(Long bookId){
+    public boolean deleteBookTrackerByBookId(Long bookId){
         Optional<BookTracker> book = bookTrackerRepository.findByBookId(bookId);
 
-        book.ifPresentOrElse(b ->{
-            bookTrackerRepository.deleteById(b.getId());
-        }, ()->{
-            System.out.println("While deleting: bookTracker with id " + bookId +" not found");
-        });
+        if(book.isPresent()){
+            bookTrackerRepository.deleteById(book.get().getId());
+            return true;
+        }
+
+        System.out.println("While deleting: bookTracker with bookId " + bookId +" not found");
+        return false;
     }
 }

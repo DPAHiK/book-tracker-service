@@ -24,6 +24,7 @@ public class ConsumerService {
     public void listenDeleteBook(String bookId) {
         System.out.println("Received Book ID: " + bookId);
 
-        bookTrackerService.deleteBookTrackerByBookId(Long.valueOf(bookId));
+       bookTrackerService.deleteBookTrackerByBookId(Long.valueOf(bookId));
+
     }
 }

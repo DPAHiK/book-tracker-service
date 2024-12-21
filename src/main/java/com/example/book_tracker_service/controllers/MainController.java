@@ -30,11 +30,11 @@ public class MainController {
     }
 
     @DeleteMapping("/book/tracker/{id}")
-    public void deleteBookTracker(@PathVariable(value = "id") Long id){
-        bookTrackerService.deleteBookTrackerById(id);
+    public boolean deleteBookTracker(@PathVariable(value = "id") Long id){
+        return bookTrackerService.deleteBookTrackerById(id);
     }
 
-    @PostMapping("/book/tracker/{id}")
+    @PutMapping("/book/tracker/{id}")
     public void editBookTracker(@RequestBody BookTracker bookTracker, @PathVariable(value = "id") Long id){
         Optional<BookTracker> oldBookTracker = bookTrackerService.findById(id);
 
