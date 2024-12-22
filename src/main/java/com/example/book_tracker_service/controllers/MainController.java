@@ -25,8 +25,10 @@ public class MainController {
     }
 
     @PostMapping("/book/tracker")
-    public void addBookTracker(@RequestBody BookTracker bookTracker){
+    public BookTracker addBookTracker(@RequestBody BookTracker bookTracker){
         bookTrackerService.addBookTracker(bookTracker);
+
+        return  bookTracker;
     }
 
     @DeleteMapping("/book/tracker/{id}")
@@ -35,7 +37,7 @@ public class MainController {
     }
 
     @PutMapping("/book/tracker/{id}")
-    public void editBookTracker(@RequestBody BookTracker bookTracker, @PathVariable(value = "id") Long id){
+    public BookTracker editBookTracker(@RequestBody BookTracker bookTracker, @PathVariable(value = "id") Long id){
         Optional<BookTracker> oldBookTracker = bookTrackerService.findById(id);
 
         oldBookTracker.ifPresentOrElse(newBookTracker ->{
@@ -49,5 +51,7 @@ public class MainController {
         () -> {
             System.out.println("While editing: bookTracker with id " + id +" not found");
                 });
+
+        return bookTracker;
     }
 }
