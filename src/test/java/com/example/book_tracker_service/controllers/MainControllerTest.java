@@ -67,9 +67,7 @@ public class MainControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"id\":1,\"bookId\":123,\"free\":true}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.bookId", is(123)))
-                .andExpect(jsonPath("$.free", is(true)));
+                .andExpect(content().string("BookTracker added"));
 
         verify(bookTrackerService, times(1)).addBookTracker(any(BookTracker.class));
     }
@@ -93,8 +91,7 @@ public class MainControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"id\":1,\"bookId\":123,\"free\":false}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.bookId", is(123)))
-                .andExpect(jsonPath("$.free", is(false)));
+                .andExpect(content().string("BookTracker edited"));
 
         verify(bookTrackerService, times(1)).findById(1L);
         verify(bookTrackerService, times(1)).addBookTracker(any(BookTracker.class));

@@ -3,11 +3,9 @@ package com.example.book_tracker_service.controllers;
 import com.example.book_tracker_service.models.AuthToken;
 import com.example.book_tracker_service.models.User;
 import com.example.book_tracker_service.repo.AuthTokenRepository;
-import com.example.book_tracker_service.repo.UserRepository;
 import com.example.book_tracker_service.response.AuthResponse;
 import com.example.book_tracker_service.response.LoginRequest;
 import com.example.book_tracker_service.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,13 +17,17 @@ import java.util.UUID;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthTokenRepository authTokenRepository;
+    final private AuthTokenRepository authTokenRepository;
 
-    @Autowired
-    private UserService userService;
+    final private UserService userService;
 
-    @Autowired private PasswordEncoder passwordEncoder;
+    final private PasswordEncoder passwordEncoder;
+
+    public AuthController(UserService userService, PasswordEncoder passwordEncoder, AuthTokenRepository authTokenRepository) {
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+        this.authTokenRepository = authTokenRepository;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
@@ -35,8 +37,8 @@ public class AuthController {
         if(user.isEmpty()) return ResponseEntity.status(404).body("Incorrect login or password");
         if(!passwordEncoder.matches(loginRequest.getPassword(), user.get().getPassword())) return ResponseEntity.status(404).body("Incorrect login or password");
 
-        // Если учетные данные верны, создайте токен
-        String token = generateToken(); // Генерация уникального токена
+
+        String token = generateToken();
         AuthToken authToken = new AuthToken();
         authToken.setToken(token);
         authToken.setUsername(loginRequest.getUsername());
@@ -74,7 +76,7 @@ public class AuthController {
     }
 
     private String generateToken() {
-        // Логика генерации уникального токена (например, UUID)
+
         return UUID.randomUUID().toString();
     }
 }

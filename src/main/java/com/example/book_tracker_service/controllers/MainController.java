@@ -3,6 +3,7 @@ package com.example.book_tracker_service.controllers;
 import com.example.book_tracker_service.models.BookTracker;
 import com.example.book_tracker_service.services.BookTrackerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,10 +26,10 @@ public class MainController {
     }
 
     @PostMapping("/book/tracker")
-    public BookTracker addBookTracker(@RequestBody BookTracker bookTracker){
+    public ResponseEntity<?> addBookTracker(@RequestBody BookTracker bookTracker){
         bookTrackerService.addBookTracker(bookTracker);
 
-        return  bookTracker;
+        return ResponseEntity.ok("BookTracker added");
     }
 
     @DeleteMapping("/book/tracker/{id}")
@@ -37,21 +38,24 @@ public class MainController {
     }
 
     @PutMapping("/book/tracker/{id}")
-    public BookTracker editBookTracker(@RequestBody BookTracker bookTracker, @PathVariable(value = "id") Long id){
+    public ResponseEntity<?> editBookTracker(@RequestBody BookTracker bookTracker, @PathVariable(value = "id") Long id){
         Optional<BookTracker> oldBookTracker = bookTrackerService.findById(id);
+        if(oldBookTracker.isPresent()){
+            BookTracker newBookTracker = oldBookTracker.get();
 
-        oldBookTracker.ifPresentOrElse(newBookTracker ->{
             newBookTracker.setFree(bookTracker.isFree());
             newBookTracker.setBookId(bookTracker.getBookId());
             newBookTracker.setReturnDate(bookTracker.getReturnDate());
             newBookTracker.setTakeDate(bookTracker.getTakeDate());
 
             bookTrackerService.addBookTracker(newBookTracker);
-        },
-        () -> {
-            System.out.println("While editing: bookTracker with id " + id +" not found");
-                });
 
-        return bookTracker;
+            return ResponseEntity.ok("BookTracker edited");
+        }
+
+        System.out.println("While editing: bookTracker with id " + id +" not found");
+
+
+        return ResponseEntity.status(404).body("BookTracker with id \" + id +\" not found");
     }
 }
