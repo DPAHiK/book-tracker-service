@@ -1,6 +1,5 @@
 package com.example.book_tracker_service.services;
 
-import com.example.book_tracker_service.BookTrackerServiceApplication;
 import com.example.book_tracker_service.models.BookTracker;
 import com.example.book_tracker_service.repo.BookTrackerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +25,8 @@ public class BookTrackerService {
         return bookTrackerRepository.findByIsFree(true);
     }
 
-    public void addBookTracker(BookTracker bookTracker){
-        bookTrackerRepository.save(bookTracker);
+    public BookTracker addBookTracker(BookTracker bookTracker){
+        return bookTrackerRepository.save(bookTracker);
     }
 
 
