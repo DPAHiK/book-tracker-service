@@ -4,4 +4,4 @@
 3) Запустите сервер Kafka на порту 9092
 4) Запустите book-storage-service (https://github.com/DPAHiK/book-storage-service.git)
 5) Запустите book-tracker-service (https://github.com/DPAHiK/book-tracker-service.git)
-6) Теперь можно проверить работу.
+6) Теперь можно проверить работу. (https://www.postman.com/material-saganist-11038151/library-api)
