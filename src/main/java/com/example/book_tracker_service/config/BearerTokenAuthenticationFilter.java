@@ -39,11 +39,11 @@ public class BearerTokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         String token = getTokenFromRequest(request);
-        //System.out.println(token);
+
         if (token != null) {
             Optional<AuthToken> authToken = authTokenRepository.findByToken(token);
             if (authToken.isPresent()) {
-                // Здесь вы можете загрузить пользователя из базы данных и установить его в контекст
+
                 Optional <User> userDetails = userRepository.findByName(authToken.get().getUsername());
                 if(userDetails.isPresent()){
                     UsernamePasswordAuthenticationToken authentication =
@@ -55,6 +55,7 @@ public class BearerTokenAuthenticationFilter extends OncePerRequestFilter {
 
             }
         }
+
         chain.doFilter(request, response);
     }
 

@@ -1,40 +1,44 @@
 package com.example.book_tracker_service.controllers;
 
 import com.example.book_tracker_service.models.BookTracker;
+import com.example.book_tracker_service.response_and_request.ResponseHandler;
 import com.example.book_tracker_service.services.BookTrackerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
+
 @RestController
-public class MainController {
+public class BookTrackerController {
 
 
-    @Autowired
     final private BookTrackerService bookTrackerService;
 
-    public MainController(BookTrackerService bookTrackerService) {
+    public BookTrackerController(BookTrackerService bookTrackerService) {
         this.bookTrackerService = bookTrackerService;
     }
 
     @GetMapping("/book/free")
-    public List<BookTracker> getFreeBooks(){
-        return bookTrackerService.findFreeBooks();
+    public ResponseEntity<?> getFreeBooks(){
+
+        return ResponseHandler.generateResponse(HttpStatus.OK, "data", bookTrackerService.findFreeBooks());
     }
 
     @PostMapping("/book/tracker")
     public ResponseEntity<?> addBookTracker(@RequestBody BookTracker bookTracker){
         bookTrackerService.addBookTracker(bookTracker);
 
-        return ResponseEntity.ok("BookTracker added");
+        return ResponseHandler.generateResponse(HttpStatus.OK, "message", "BookTracker added");
     }
 
     @DeleteMapping("/book/tracker/{id}")
-    public boolean deleteBookTracker(@PathVariable(value = "id") Long id){
-        return bookTrackerService.deleteBookTrackerById(id);
+    public ResponseEntity<?> deleteBookTracker(@PathVariable(value = "id") Long id){
+        boolean result = bookTrackerService.deleteBookTrackerById(id);
+
+        return ResponseHandler.generateResponse(result ? HttpStatus.OK : HttpStatus.NOT_FOUND, "deleted", result);
+
     }
 
     @PutMapping("/book/tracker/{id}")
@@ -50,12 +54,12 @@ public class MainController {
 
             bookTrackerService.addBookTracker(newBookTracker);
 
-            return ResponseEntity.ok("BookTracker edited");
+            return ResponseHandler.generateResponse( HttpStatus.OK , "deleted", "Book tracker edited");
         }
 
         System.out.println("While editing: bookTracker with id " + id +" not found");
 
 
-        return ResponseEntity.status(404).body("BookTracker with id \" + id +\" not found");
+        return ResponseHandler.generateResponse( HttpStatus.NOT_FOUND , "message", "Book tracker with id " + id + " not found");
     }
 }

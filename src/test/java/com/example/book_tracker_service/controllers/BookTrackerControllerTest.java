@@ -24,20 +24,20 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
-public class MainControllerTest {
+public class BookTrackerControllerTest {
 
     @Mock
     private BookTrackerService bookTrackerService;
 
     @InjectMocks
-    private MainController mainController;
+    private BookTrackerController bookTrackerController;
 
     private MockMvc mockMvc;
     private BookTracker bookTracker;
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(mainController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(bookTrackerController).build();
 
         bookTracker = new BookTracker();
         bookTracker.setId(1L);

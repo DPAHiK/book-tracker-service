@@ -1,4 +1,4 @@
-package com.example.book_tracker_service.response;
+package com.example.book_tracker_service.response_and_request;
 
 public class LoginRequest {
     private String username;
