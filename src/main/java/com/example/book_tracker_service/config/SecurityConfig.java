@@ -32,7 +32,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .addFilterBefore(bearerTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exceptionHandler -> exceptionHandler.authenticationEntryPoint((request, response, authenticationException) -> {
-                            response.getWriter().write("{\n\"code\": \"403\"\n\"message\": \"Authentication failed\"\n}");
+                            response.setStatus(403);
+                            response.getWriter().write("{\n    \"code\": \"403\"\n    \"message\": \"Authentication failed\"\n}");
                         }));
 
         return http.build();
