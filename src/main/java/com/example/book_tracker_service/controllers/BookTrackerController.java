@@ -3,6 +3,8 @@ package com.example.book_tracker_service.controllers;
 import com.example.book_tracker_service.models.BookTracker;
 import com.example.book_tracker_service.response_and_request.ResponseHandler;
 import com.example.book_tracker_service.services.BookTrackerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import java.util.Optional;
 @RestController
 public class BookTrackerController {
 
+    private static final Logger logger = LoggerFactory.getLogger(BookTrackerService.class);
 
     final private BookTrackerService bookTrackerService;
 
@@ -57,7 +60,7 @@ public class BookTrackerController {
             return ResponseHandler.generateResponse( HttpStatus.OK , "deleted", "Book tracker edited");
         }
 
-        System.out.println("While editing: bookTracker with id " + id +" not found");
+        logger.warn("While editing: bookTracker with id " + id +" not found");
 
 
         return ResponseHandler.generateResponse( HttpStatus.NOT_FOUND , "message", "Book tracker with id " + id + " not found");

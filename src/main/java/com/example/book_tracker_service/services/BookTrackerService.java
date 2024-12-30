@@ -2,6 +2,8 @@ package com.example.book_tracker_service.services;
 
 import com.example.book_tracker_service.models.BookTracker;
 import com.example.book_tracker_service.repo.BookTrackerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.Optional;
 @Service
 public class BookTrackerService {
 
+    private static final Logger logger = LoggerFactory.getLogger(BookTrackerService.class);
 
     private final BookTrackerRepository bookTrackerRepository;
 
@@ -38,7 +41,7 @@ public class BookTrackerService {
             return true;
         }
 
-        System.out.println("While deleting: bookTracker with bookId " + id +" not found");
+        logger.warn("While deleting: bookTracker with bookId {} not found", id);
         return false;
     }
 
@@ -50,7 +53,7 @@ public class BookTrackerService {
             return;
         }
 
-        System.out.println("While deleting: bookTracker with id " + bookId +" not found");
+        logger.warn("While deleting: bookTracker with id {} not found", bookId);
 
     }
 }

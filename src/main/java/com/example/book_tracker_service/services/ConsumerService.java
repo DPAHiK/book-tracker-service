@@ -19,7 +19,7 @@ public class ConsumerService {
 
     @KafkaListener(topics = "add-book-topic", groupId = "book_group")
     public void listenAddBook(String bookId) {
-        logger.info("Received Book ID (add): " + bookId);
+        logger.info("Received Book ID (add): {}", bookId);
 
         BookTracker bookTracker = new BookTracker();
         bookTracker.setFree(true);
@@ -29,7 +29,7 @@ public class ConsumerService {
 
     @KafkaListener(topics = "delete-book-topic", groupId = "book_group")
     public void listenDeleteBook(String bookId) {
-        logger.info("Received Book ID (delete): " + bookId);
+        logger.info("Received Book ID (delete): {}", bookId);
 
        bookTrackerService.deleteBookTrackerByBookId(Long.valueOf(bookId));
 
